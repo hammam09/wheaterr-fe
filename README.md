@@ -3,7 +3,7 @@
 Aplikasi dashboard cuaca modern, responsif, dan dinamis yang dibangun dengan HTML, CSS (Tailwind CSS), dan JavaScript. Aplikasi ini memberikan informasi cuaca secara real-time, prakiraan 5 hari, dan memungkinkan Anda mengelola kota favorit Anda.
 
 ## Demo Website
-- URL : https://hamwheater.netlify.app
+- URL : https://hamweatherr.netlify.app
 
 ## ✨ Fitur
 
