@@ -1,0 +1,324 @@
+/* Dynamic Weather Backgrounds */
+.weather-bg-default {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+}
+.weather-bg-sunny {
+    background: linear-gradient(135deg, #2563eb 0%, #00c9ff 100%);
+}
+.weather-bg-cloudy {
+    background: linear-gradient(135deg, #64748b 0%, #334155 100%);
+}
+.weather-bg-rain {
+    background: linear-gradient(135deg, #1e293b 0%, #475569 50%, #0f172a 100%);
+}
+.weather-bg-night {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+}
+
+/* Glassmorphism Layout Component */
+.glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px border-solid rgba(255, 255, 255, 0.18);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Weather Stats Block UI Grid */
+.weather-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.weather-stat-item i {
+    font-size: 1.25rem;
+}
+.weather-stat-item span {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+.weather-stat-item b {
+    font-size: 0.95rem;
+}
+
+/* Forecast Dynamic Subcards */
+.forecast-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.forecast-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* --- ANIMATION DIRECTIVES --- */
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+.slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+.floating {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Custom Scrollbar styling for smooth horizontal layouts */
+#forecastContainer::-webkit-scrollbar {
+    height: 6px;
+}
+#forecastContainer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Favorite Badges & Buttons */
+.fav-badge {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.fav-badge:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.fav-btn-click {
+    cursor: pointer;
+}
+
+.fav-remove-btn {
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.2s;
+}
+
+.fav-remove-btn:hover {
+    color: #f87171; /* Warna merah muda saat hover hapus */
+}
+
+/* ==========================================
+   KODE TAMBAHAN: MODE TERANG & TOGGLE UNIT
+   ========================================== */
+
+/* Kontainer Tombol Kontrol di Pojok Kanan Atas */
+.skycast-controls {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 40;
+}
+.skycast-btn {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.skycast-btn:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.05); }
+
+/* Efek Override Mode Terang */
+html.light-mode body {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+    color: #1e293b !important;
+}
+html.light-mode .glass-card, 
+html.light-mode [class*="glass-card"], 
+html.light-mode [class*="bg-white/10"] {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(30, 58, 138, 0.15) !important;
+    color: #1e293b !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+html.light-mode h1, html.light-mode h2, html.light-mode h3, 
+html.light-mode p, html.light-mode span, html.light-mode b {
+    color: #0f172a !important;
+    text-shadow: none !important;
+}
+html.light-mode .skycast-btn {
+    background: rgba(30, 58, 138, 0.1);
+    border: 1px solid rgba(30, 58, 138, 0.2);
+    color: #1e3a8a;
+}
+
+/* ==========================================================================
+   ADVANCED EXTRA FEATURES EXTENSION STYLING (ZERO OVERWRITE)
+   ========================================================================== */
+
+/* Layout Grid Tambahan */
+.ext-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Scroll Horizontal Jam-Jaman */
+.hourly-scroll-box {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+}
+.hourly-scroll-box::-webkit-scrollbar {
+    height: 5px;
+}
+.hourly-scroll-box::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Komponen Card Ekstensi */
+.ext-premium-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ext-premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+/* Autocomplete Suggestion Box */
+.autocomplete-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.75rem;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    margin-top: 0.25rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+.suggestion-item {
+    padding: 0.75rem 1rem;
+    color: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+.suggestion-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Badge Riwayat Pencarian */
+.history-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.history-tag {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.65rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.history-tag:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+/* Indikator Meteran AQI & UV */
+.index-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+.index-progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 1s ease-out;
+}
+
+/* Animasi Rotasi Halus (Ikon & Refresh) */
+.animate-spin-slow {
+    animation: spin 8s linear infinite;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Floating Refresh Button */
+.btn-refresh-floating {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #2563eb;
+    color: white;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s;
+}
+.btn-refresh-floating:hover { transform: scale(1.1) rotate(180deg); background: #1d4ed8; }
+
+/* Integrasi Map */
+.weather-map-frame {
+    width: 100%;
+    height: 250px;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 0.5rem;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheater App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="weather-bg-default min-h-screen font-['Inter'] text-slate-800 antialiased transition-all duration-1000 ease-in-out p-4 md:p-8 flex items-center justify-center">
+
+    <div id="loadingScreen" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex flex-col items-center justify-center text-white transition-opacity duration-300">
+        <div class="relative flex items-center justify-center mb-4">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-400 border-t-transparent"></div>
+            <i class="fa-solid fa-cloud absolute text-xl text-blue-200 floating"></i>
+        </div>
+        <p id="loadingMessage" class="font-['Poppins'] font-medium tracking-wide">Initializing application...</p>
+    </div>
+
+    <div class="w-full max-w-6xl mx-auto space-y-6 fade-in">
+        
+        <header class="text-center text-white space-y-2 mb-4">
+            <h1 class="font-['Poppins'] text-3xl md:text-5xl font-bold tracking-tight drop-shadow-md">Cuaca di Sekitar Anda</h1>
+            <p class="text-sm md:text-base text-white/80 max-w-xl mx-auto drop-shadow-sm">Dapatkan informasi cuaca secara real-time berdasarkan lokasi Anda saat ini atau lakukan pencarian secara global.</p>
+            
+            <div class="flex flex-wrap justify-center gap-3 pt-3">
+                <button id="btnMyLocation" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-medium rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-location-crosshairs"></i>Dapatkan lokasi saya
+                </button>
+                <div class="flex shadow-lg rounded-xl overflow-hidden max-w-md w-full sm:w-auto">
+                    <input type="text" id="inputCity" placeholder="Search city..." class="px-4 py-2.5 w-full sm:w-64 bg-white/90 focus:bg-white text-slate-800 placeholder-slate-400 focus:outline-none text-sm transition-all">
+                    <button id="btnSearch" class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 active:scale-95 text-white font-medium text-sm transition-all">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                <button id="btnToggleFavorite" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white font-medium rounded-xl border border-white/20 shadow-lg transition-all duration-200 flex items-center gap-2 text-sm">
+                    <i id="heartIcon" class="fa-regular fa-heart text-red-400"></i> Favorite
+                </button>
+            </div>
+
+            <div id="favoriteCitiesBar" class="flex flex-wrap justify-center gap-2 pt-4 max-w-2xl mx-auto hidden">
+                <span class="text-xs font-semibold uppercase tracking-wider text-white/60 self-center mr-1">Favorites:</span>
+                <div id="favoritesList" class="flex flex-wrap gap-2 justify-center">
+                    </div>
+            </div>
+        </header>
+
+        <div id="errorAlert" class="hidden max-w-2xl mx-auto bg-red-500/20 border border-red-500/50 text-red-200 backdrop-blur-md px-4 py-3 rounded-xl flex items-center gap-3 slide-up">
+            <i class="fa-solid fa-circle-exclamation text-xl"></i>
+            <span id="errorMessage" class="text-sm font-medium">An error occurred.</span>
+        </div>
+
+        <div id="weatherDashboard" class="grid grid-cols-1 lg:grid-cols-3 gap-6 hidden">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass-card p-6 text-white space-y-4 slide-up">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+                        <i class="fa-solid fa-map-location-dot text-2xl text-cyan-300"></i>
+                        <div>
+                            <h2 class="font-['Poppins'] font-bold text-lg leading-tight" id="txtCity">---</h2>
+                            <p class="text-xs text-white/70" id="txtRegion">---</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs text-white/80">
+                        <div class="bg-white/5 p-2.5 rounded-lg"><span class="block opacity-60">Latitude</span><b id="txtLat" class="font-mono text-sm text-white">0.0000</b></div>
+                        <div class="bg-white/5 p-2.5 rounded-lg"><span class="block opacity-60">Longitude</span><b id="txtLon" class="font-mono text-sm text-white">0.0000</b></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 text-white text-center relative overflow-hidden slide-up" style="animation-delay: 100ms;">
+                    <div class="absolute -right-6 -top-6 text-white/5 text-9xl font-bold font-mono">NOW</div>
+                    <img id="imgWeatherIcon" src="" alt="Weather Status" class="w-28 h-28 mx-auto drop-shadow-md floating">
+                    <h3 id="txtTemperature" class="text-6xl md:text-7xl font-extralight tracking-tighter my-2">--°C</h3>
+                    <p id="txtCondition" class="font-['Poppins'] text-xl font-semibold capitalize tracking-wide">---</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-card p-6 text-white slide-up" style="animation-delay: 200ms;">
+                    <h3 class="font-['Poppins'] font-semibold mb-4 text-white/90 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-simple text-cyan-300"></i> Kodisi Cuaca
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="weather-stat-item"><i class="fa-solid fa-temperature-half text-orange-300"></i><div><span>Terasa Seperti</span><b id="valFeels">--°C</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-droplet text-blue-300"></i><div><span>Kelembapan</span><b id="valHumidity">--%</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-wind text-teal-300"></i><div><span>Kecepatan Angin</span><b id="valWind">-- m/s</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-gauge text-purple-300"></i><div><span>Tekanan Udara</span><b id="valPressure">-- hPa</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-eye text-indigo-300"></i><div><span>Jarak Pandang</span><b id="valVisibility">-- km</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-sunrise text-yellow-300"></i><div><span>Matahari Terbit</span><b id="valSunrise">--:--</b></div></div>
+                        <div class="weather-stat-item"><i class="fa-solid fa-sunset text-amber-400"></i><div><span>Matahari Terbenam</span><b id="valSunset">--:--</b></div></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 text-white slide-up" style="animation-delay: 300ms;">
+                    <h3 class="font-['Poppins'] font-semibold mb-4 text-white/90 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-cyan-300"></i> 5-Day Forecast
+                    </h3>
+                    <div id="forecastContainer" class="grid grid-cols-2 sm:grid-cols-5 gap-3 overflow-x-auto">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
